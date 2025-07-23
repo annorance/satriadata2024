@@ -17,3 +17,22 @@ Di tahun 2024, Big Data Challenge mengangkat permasalahan Natural Language Proce
 6. Sosial Budaya
 7. Ekonomi
 8. Geografi
+
+---
+
+## Metodologi
+### 1. Preprocessing Data
+Pembersihan data dilakukan dengan cara-cara berikut:
+- Standarisasi teks: lowercase, hapus tanda baca, dan emoji (pakai library emoji).
+- Hapus stopwords bahasa Indonesia (dari Sastrawi).
+- Gunakan TweetTokenizer dari NLTK untuk tokenisasi khusus media sosial.
+- Regex digunakan untuk menghapus username, hyperlink, dan kata seperti “RT”/“retweet”.
+- IndoNLP digunakan untuk menangani slang dan kata yang dipanjang-panjangin (replace_word_elongation).
+- Manual filtering: hapus nama tokoh politik (Anies, Ganjar, Prabowo, dst) karena tidak memberi informasi klasifikasi topik.
+Setelah data bersih, diterapkan stemming & lemmatization pada data. Digunakan library Sastrawi untuk stemming kata-kata dalam bahasa Indonesia.
+
+### 2. Modelling
+Dataset dibagi menjadi training dan testing, lalu dikonversi ke TensorDataset. Model yang digunakan: BERT (indobenchmark/indobert-base-p1) dengan arsitektur BertForSequenceClassification. Masalah imbalanced class ditangani dengan class_weight dan evaluasi menggunakan balanced accuracy score. DistilBERT sempat dicoba dan menunjukkan hasil lebih baik karena arsitekturnya lebih ringan sehingga meminimalisir risiko overfitting.
+
+## Hasil
+Hasil akhir menunjukkan akurasi 41% pada saat diujikan di portal kompetisi Satria Data Big Data Challenge
